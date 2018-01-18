@@ -134,12 +134,12 @@ class Connection implements ConnectionInterface
         }
 
         if (true === $this->passive) {
-            if (!@ftp_pasv($this->getResource(), $this->get)) {
+            if (!@ftp_pasv($this->getResource(), $this->passive)) {
                 throw new ConnectionException('Passive mode can not be turned on');
             }
         }
 
-        $this->connected = true;
+        $this->setConnected(true);
 
         return true;
     }
@@ -149,7 +149,7 @@ class Connection implements ConnectionInterface
      *
      * @return resource
      */
-    public function connect()
+    protected function connect()
     {
         return @\ftp_connect($this->getHost(), $this->getPort(), $this->getTimeout());
     }
@@ -161,7 +161,10 @@ class Connection implements ConnectionInterface
      */
     public function close(): bool
     {
-        return \ftp_close($this->getResource());
+        $state = \ftp_close($this->getResource());
+        $this->setConnected(!$state);
+
+        return $state;
     }
 
     /**
@@ -184,7 +187,7 @@ class Connection implements ConnectionInterface
         }
     }
 
-    /************ GETTERS ************/
+    /************ GETTERS AND SETTERS ************/
 
     /**
      * Return FTP protocol resource
@@ -244,6 +247,20 @@ class Connection implements ConnectionInterface
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    /**
+     * This method implements fluent interface
+     *
+     * @param $param null|bool
+     *
+     * @return ConnectionInterface
+     */
+    public function setConnected(?bool $param): ConnectionInterface
+    {
+        $this->connected = $param;
+
+        return $this;
     }
 
 }
