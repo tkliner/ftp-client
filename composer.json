@@ -1,0 +1,38 @@
+{
+  "name": "speedy/ftp-client",
+  "type": "library",
+  "description": "A simple PHP FTP client",
+  "keywords": [
+    "ftp",
+    "php"
+  ],
+  "homepage": "https://stagemedia.cz",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tomáš Kliner",
+      "email": "kliner.tomas@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1.0"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^3.1",
+    "phpunit/phpunit": "^6.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Speedy\\FTP\\": "src/"
+    },
+    "exclude-from-classmap": [
+      "/tests/"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Speedy\\FTP\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "dev"
+}
