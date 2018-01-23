@@ -1,0 +1,36 @@
+# Speedy FTP Client
+
+Speedy FTP client is a package component for simple communication with the ftp server written in php.
+
+## Requirements
+
+- \>= php 7.1
+
+
+## Installation
+
+```sh
+$ composer require speedy/ftp-client
+```
+
+## Usage
+
+Basic initialization and class usage for the most used ftp server operations
+
+```php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Speedy\FTP\Connection\Connection;
+use Speedy\FTP\SimpleFTPClient;
+
+$connection = new Connection('host', 'login', 'password');
+$client = new SimpleFTPClient($connection);
+
+// shows the list of folders and files in the root server
+var_dump($client->nlist('/'));
+```
+
+## Tests
+
+This package contains the basic tests that provide a good basis for further development
