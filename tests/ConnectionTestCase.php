@@ -1,23 +1,15 @@
-<?php declare(strict_types=1);
+<?php
 
-/*
- * This file is part of the Speedy package.
- *
- * (c) Tomáš Kliner <kliner.tomas@gmail.com>
- *
- */
+declare(strict_types=1);
 
 namespace Speedy\FTP\Tests;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Speedy\FTP\Connection\Connection;
 
 /**
- * Class ConnectionTestCase
- *
- * @package     Speedy\FTP\Tests
- * @author      Tomáš Kliner <kliner.tomas@gmail.com>
- * @since       1.0.0
+ * @author Tomáš Kliner <kliner.tomas@gmail.com>
  */
 class ConnectionTestCase extends TestCase
 {
@@ -29,7 +21,7 @@ class ConnectionTestCase extends TestCase
     /**
      * Test the creation of connections at the beginning of all the tests that inherit from this class
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -38,7 +30,7 @@ class ConnectionTestCase extends TestCase
         try {
             self::$connection->open();
             self::$connected = true;
-        } catch (\Exception $e) {
+        } catch (Exception $exception) {
             self::$connected = false;
         }
 
@@ -47,11 +39,10 @@ class ConnectionTestCase extends TestCase
     /**
      * Check if connection is ok before each test
      */
-    public function setUp()
+    protected function setUp(): void
     {
         if (false === self::$connected) {
             $this->markTestSkipped('Fails to connect to the ftp server, make sure the server is running and the parameters are defined in the phpunit configuration file');
         }
     }
-
 }

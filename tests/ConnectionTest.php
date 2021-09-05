@@ -1,46 +1,34 @@
-<?php declare(strict_types=1);
+<?php
 
-/*
- * This file is part of the Speedy package.
- *
- * (c) Tomáš Kliner <kliner.tomas@gmail.com>
- *
- */
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Speedy\FTP\Connection\Connection;
 use Speedy\FTP\ConnectionInterface;
+use Speedy\FTP\Exception\ConnectionAlreadyEstablishedException;
+use Speedy\FTP\Exception\ConnectionBadCredentialsException;
+use Speedy\FTP\Exception\ConnectionException;
 
 /**
- * Class ConnectionTest
- * @author      Tomáš Kliner <kliner.tomas@gmail.com>
- * @version     1.0.0
+ * @author Tomáš Kliner <kliner.tomas@gmail.com>
  */
 class ConnectionTest extends TestCase
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $host;
 
-    /**
-     * @var integer
-     */
+    /** @var int */
     private $port;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $username;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $password;
 
-    public function setUp()
+    protected function setUp(): void
     {
-        parent::__construct();
+        $this->__construct();
 
         $this->host = getenv('FTP_HOST');
         $this->port = (int)getenv('FTP_PORT');
@@ -51,34 +39,34 @@ class ConnectionTest extends TestCase
     /**
      * Basic test to create a class connection instance
      */
-    public function testCreateInstanceConnectionClass()
+    public function testCreateInstanceConnectionClass(): void
     {
         $connection = new Connection($this->host, $this->username, $this->password, $this->port);
-        $this->assertInstanceOf(ConnectionInterface::class, $connection, 'Connection class does not implement connection interface');
+        static::assertInstanceOf(ConnectionInterface::class, $connection, 'Connection class does not implement connection interface');
     }
 
     /**
      * Test to establish a connection to the server
      */
-    public function testEstablishConnectionSuccess()
+    public function testEstablishConnectionSuccess(): void
     {
         $connection = new Connection($this->host, $this->username, $this->password, $this->port);
 
         try {
-            $this->assertTrue($connection->open(), 'Failed to create connection');
-            $this->assertTrue($connection->isConnected(), 'Method isConnected return bad state');
-        } catch (\Exception $e) {
-            $this->markTestSkipped();
+            static::assertTrue($connection->open(), 'Failed to create connection');
+            static::assertTrue($connection->isConnected(), 'Method isConnected return bad state');
+        } catch (Exception $exception) {
+            static::markTestSkipped($exception->getMessage());
         }
     }
 
     /**
      * Test to establish multiple connections during one instance of the class connection
-     *
-     * @expectedException \Speedy\FTP\Exception\ConnectionAlreadyEstablishedException
      */
-    public function testMultipleEstablishConnection()
+    public function testMultipleEstablishConnection(): void
     {
+        $this->expectException(ConnectionAlreadyEstablishedException::class);
+
         $connection = new Connection($this->host, $this->username, $this->password, $this->port);
         $connection->open();
         $connection->open();
@@ -86,22 +74,22 @@ class ConnectionTest extends TestCase
 
     /**
      * Test to establish a connection with a non-existing host parameter
-     *
-     * @expectedException \Speedy\FTP\Exception\ConnectionException
      */
-    public function testEstablishConnectionWithBadHost()
+    public function testEstablishConnectionWithBadHost(): void
     {
+        $this->expectException(ConnectionException::class);
+
         $connection = new Connection('foobar.google.com', $this->username, $this->password, $this->port);
         $connection->open();
     }
 
     /**
      * Test to establish connection with bad login data
-     *
-     * @expectedException \Speedy\FTP\Exception\ConnectionBadCredentialsException
      */
-    public function testEstablishConnectionWithBadCredentials()
+    public function testEstablishConnectionWithBadCredentials(): void
     {
+        $this->expectException(ConnectionBadCredentialsException::class);
+
         $connection = new Connection($this->host, 'abc', '123456', $this->port);
         $connection->open();
     }
@@ -109,32 +97,31 @@ class ConnectionTest extends TestCase
     /**
      * Test to establish connection with passive mode
      */
-    public function testEstablishConnectionWithPassiveMode()
+    public function testEstablishConnectionWithPassiveMode(): void
     {
         try {
             $connection = new Connection($this->host, $this->username, $this->password, $this->port, 90, true);
 
-            $this->assertTrue($connection->open(), 'Failed to create connection');
-            $this->assertTrue($connection->isConnected(), 'Method isConnected return bad state');
-        } catch (\Exception $e) {
-            $this->markTestSkipped();
+            static::assertTrue($connection->open(), 'Failed to create connection');
+            static::assertTrue($connection->isConnected(), 'Method isConnected return bad state');
+        } catch (Exception $exception) {
+            static::markTestSkipped($exception->getMessage());
         }
     }
 
     /**
      * Termination test
      */
-    public function testCloseConnection()
+    public function testCloseConnection(): void
     {
         try {
             $connection = new Connection($this->host, $this->username, $this->password, $this->port);
             $connection->open();
 
-            $this->assertTrue($connection->close(), 'Connection was not closed');
-            $this->assertFalse($connection->isConnected(), 'Method isConnected return bad state');
-        } catch (\Exception $e) {
-            $this->markTestSkipped();
+            static::assertTrue($connection->close(), 'Connection was not closed');
+            static::assertFalse($connection->isConnected(), 'Method isConnected return bad state');
+        } catch (Exception $exception) {
+            static::markTestSkipped($exception->getMessage());
         }
     }
-
 }

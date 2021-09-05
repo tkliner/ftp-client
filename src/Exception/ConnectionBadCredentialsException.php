@@ -1,20 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 
-/*
- * This file is part of the Speedy package.
- *
- * (c) Tomáš Kliner <kliner.tomas@gmail.com>
- *
- */
+declare(strict_types=1);
 
 namespace Speedy\FTP\Exception;
 
 /**
- * Class ConnectionBadCredentialsException
- *
- * @package     Speedy\FTP\Exception
- * @author      Tomáš Kliner <kliner.tomas@gmail.com>
- * @version     1.0.0
+ * @author Tomáš Kliner <kliner.tomas@gmail.com>
  */
 class ConnectionBadCredentialsException extends FTPException
 {

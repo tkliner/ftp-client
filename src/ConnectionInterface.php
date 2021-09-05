@@ -1,19 +1,9 @@
-<?php declare(strict_types=1);
+<?php
 
-/*
- * This file is part of the Speedy package.
- *
- * (c) Tomáš Kliner <kliner.tomas@gmail.com>
- *
- */
+declare(strict_types=1);
 
 namespace Speedy\FTP;
 
-/**
- * Interface ConnectionInterface
- *
- * @package Speedy\FTP
- */
 interface ConnectionInterface
 {
     /**
@@ -25,16 +15,11 @@ interface ConnectionInterface
 
     /**
      * Return connection state
-     *
-     * @return bool|null
      */
     public function isConnected(): ?bool;
 
     /**
      * Open connection to server and login user
-     *
-     * @return bool
      */
     public function open(): bool;
-
 }
