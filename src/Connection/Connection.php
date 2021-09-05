@@ -17,26 +17,13 @@ use function is_resource;
  */
 class Connection implements ConnectionInterface
 {
-    /** @var string */
-    private $host;
-
-    /** @var string */
-    private $username;
-
-    /** @var string */
-    private $password;
-
-    /** @var int */
-    private $port;
-
-    /** @var int */
-    private $timeout;
-
-    /** @var bool */
-    private $passive;
-
-    /** @var ?bool */
-    private $connected;
+    private string $host;
+    private string $username;
+    private string $password;
+    private int $port;
+    private int $timeout;
+    private bool $passive;
+    private ?bool $connected = null;
 
     /** @var bool|resource */
     private $resource;

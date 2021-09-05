@@ -14,8 +14,7 @@ use function func_get_args;
  */
 abstract class BaseFTPClient
 {
-    /** @var ConnectionInterface */
-    protected $connection;
+    private ConnectionInterface $connection;
 
     public function __construct(ConnectionInterface $connection)
     {

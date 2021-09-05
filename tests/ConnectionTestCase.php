@@ -15,8 +15,8 @@ class ConnectionTestCase extends TestCase
 {
     public const TIMEOUT = 90;
 
-    public static $connection;
-    public static $connected = false;
+    public static Connection $connection;
+    public static bool $connected = false;
 
     /**
      * Test the creation of connections at the beginning of all the tests that inherit from this class
@@ -42,7 +42,7 @@ class ConnectionTestCase extends TestCase
     protected function setUp(): void
     {
         if (false === self::$connected) {
-            $this->markTestSkipped('Fails to connect to the ftp server, make sure the server is running and the parameters are defined in the phpunit configuration file');
+            static::markTestSkipped('Fails to connect to the ftp server, make sure the server is running and the parameters are defined in the phpunit configuration file');
         }
     }
 }

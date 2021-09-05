@@ -17,8 +17,7 @@ class ConnectionTest extends TestCase
     /** @var string */
     private $host;
 
-    /** @var int */
-    private $port;
+    private int $port;
 
     /** @var string */
     private $username;
@@ -117,11 +116,11 @@ class ConnectionTest extends TestCase
         try {
             $connection = new Connection($this->host, $this->username, $this->password, $this->port);
             $connection->open();
-
-            static::assertTrue($connection->close(), 'Connection was not closed');
-            static::assertFalse($connection->isConnected(), 'Method isConnected return bad state');
         } catch (Exception $exception) {
             static::markTestSkipped($exception->getMessage());
         }
+
+        static::assertTrue($connection->close(), 'Connection was not closed');
+        static::assertFalse($connection->isConnected(), 'Method isConnected return bad state');
     }
 }

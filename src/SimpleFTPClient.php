@@ -17,9 +17,9 @@ class SimpleFTPClient extends BaseFTPClient
      * @see http://php.net/manual/en/function.ftp-get.php
      * @throws CommandException
      */
-    public function get(string $localFile, string $remoteFile, int $mode = FTP_BINARY, int $resumepos = 0): bool
+    public function get(string $localFile, string $remoteFile, int $mode = FTP_BINARY, int $resumePosition = 0): bool
     {
-        return $this->ftp('get', $localFile, $remoteFile, $mode, $resumepos);
+        return $this->ftp('get', $localFile, $remoteFile, $mode, $resumePosition);
     }
 
     /**
@@ -28,9 +28,9 @@ class SimpleFTPClient extends BaseFTPClient
      * @see http://php.net/manual/en/function.ftp-nb-get.php
      * @throws CommandException
      */
-    public function getNb(string $localFile, string $remoteFile, int $mode = FTP_BINARY, int $resumepos = 0): int
+    public function getNb(string $localFile, string $remoteFile, int $mode = FTP_BINARY, int $resumePosition = 0): int
     {
-        return $this->ftp('nb_get', $localFile, $remoteFile, $mode, $resumepos);
+        return $this->ftp('nb_get', $localFile, $remoteFile, $mode, $resumePosition);
     }
 
     /**
@@ -39,9 +39,9 @@ class SimpleFTPClient extends BaseFTPClient
      * @see http://php.net/ftp_fget
      * @throws CommandException
      */
-    public function fget($handle, string $remoteFile, int $mode = FTP_BINARY, int $resumepos = 0): bool
+    public function fget($handle, string $remoteFile, int $mode = FTP_BINARY, int $resumePosition = 0): bool
     {
-        return $this->ftp('fget', $handle, $remoteFile, $mode, $resumepos);
+        return $this->ftp('fget', $handle, $remoteFile, $mode, $resumePosition);
     }
 
     /**
@@ -50,9 +50,9 @@ class SimpleFTPClient extends BaseFTPClient
      * @see http://php.net/ftp_nb_fget
      * @throws CommandException
      */
-    public function fgetNb($handle, string $remoteFile, int $mode = FTP_BINARY, int $resumepos = 0): int
+    public function fgetNb($handle, string $remoteFile, int $mode = FTP_BINARY, int $resumePosition = 0): int
     {
-        return $this->ftp('nb_fget', $handle, $remoteFile, $mode, $resumepos);
+        return $this->ftp('nb_fget', $handle, $remoteFile, $mode, $resumePosition);
     }
 
     /**
@@ -257,9 +257,9 @@ class SimpleFTPClient extends BaseFTPClient
      * @see http://php.net/manual/en/function.ftp-rename.php
      * @throws CommandException
      */
-    public function rename(string $oldname, string $newname): bool
+    public function rename(string $oldName, string $newName): bool
     {
-        return $this->ftp('rename', $oldname, $newname);
+        return $this->ftp('rename', $oldName, $newName);
     }
 
     /**

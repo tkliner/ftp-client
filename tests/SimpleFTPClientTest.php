@@ -11,8 +11,7 @@ use Speedy\FTP\Tests\ConnectionTestCase;
  */
 class SimpleFTPClientTest extends ConnectionTestCase
 {
-    /** @var SimpleFTPClient */
-    public $simpleFtpClient;
+    public SimpleFTPClient $simpleFtpClient;
 
     /**
      * Create SimpleFTPClient before each test
@@ -121,7 +120,7 @@ class SimpleFTPClientTest extends ConnectionTestCase
     /**
      * Clear FTP server after each test
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         $files = $this->simpleFtpClient->nlist('/');
 
