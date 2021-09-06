@@ -1,32 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/*
- * This file is part of the Speedy package.
- *
- * (c) Tomáš Kliner <kliner.tomas@gmail.com>
- *
- */
+declare(strict_types=1);
 
+use Speedy\FTP\Exception\CommandException;
 use Speedy\FTP\SimpleFTPClient;
 use Speedy\FTP\Tests\ConnectionTestCase;
 
 /**
- * Class SimpleFTPClientTest
- *
- * @author      Tomáš Kliner <kliner.tomas@gmail.com>
- * @since       1.0.0
+ * @author Tomáš Kliner <kliner.tomas@gmail.com>
  */
 class SimpleFTPClientTest extends ConnectionTestCase
 {
-    /**
-     * @var SimpleFTPClient
-     */
-    public $simpleFtpClient;
+    public SimpleFTPClient $simpleFtpClient;
 
     /**
      * Create SimpleFTPClient before each test
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -35,44 +25,39 @@ class SimpleFTPClientTest extends ConnectionTestCase
 
     /**
      * Check if fpt server is empty
-     *
-     * @throws \Speedy\FTP\Exception\CommandException
      */
-    public function testListFilesSuccess()
+    public function testListFilesSuccess(): void
     {
-        $this->assertEmpty($this->simpleFtpClient->nlist('/'), 'FTP server isn\'t empty');
+        self::markTestSkipped('Free FTP server is not empty everytime.');
+        static::assertEmpty($this->simpleFtpClient->nlist('/'), 'FTP server isn\'t empty');
     }
 
     /**
      * basic test for upload and download file
-     *
-     * @throws \Speedy\FTP\Exception\CommandException
      */
-    public function testUploadAndDownloadFileSuccess()
+    public function testUploadAndDownloadFileSuccess(): void
     {
         $uploadState = $this->simpleFtpClient->put('/test1', __DIR__ . '/content/file1.txt');
-        $this->assertTrue($uploadState, 'File upload failed');
+        static::assertTrue($uploadState, 'File upload failed');
 
         $downloadState = $this->simpleFtpClient->get(__DIR__ . '/content/file1_download.txt', '/test1');
-        $this->assertTrue($downloadState, 'File download failed');
+        static::assertTrue($downloadState, 'File download failed');
 
         $originalFileContent = file_get_contents(__DIR__ . '/content/file1.txt');
         $downloadFileContent = file_get_contents(__DIR__ . '/content/file1_download.txt');
 
-        $this->assertSame($originalFileContent, $downloadFileContent, 'The content of the downloaded file does not match the original file');
+        static::assertSame($originalFileContent, $downloadFileContent, 'The content of the downloaded file does not match the original file');
 
         unlink(__DIR__ . '/content/file1_download.txt');
     }
 
     /**
      * Basic test for non-blocking file upload and download
-     *
-     * @throws \Speedy\FTP\Exception\CommandException
      */
-    public function testNonBlockingUploadAndDownloadFileSuccess()
+    public function testNonBlockingUploadAndDownloadFileSuccess(): void
     {
         $uploadState = $this->simpleFtpClient->putNb('/test2', __DIR__ . '/content/file2.txt');
-        $this->assertSame(1, $uploadState, 'Non blocking file upload failed');
+        static::assertSame(1, $uploadState, 'Non blocking file upload failed');
 
         $downloadState = $this->simpleFtpClient->getNb(__DIR__ . '/content/file2_download.txt', '/test2');
 
@@ -80,76 +65,67 @@ class SimpleFTPClientTest extends ConnectionTestCase
             $downloadState = $this->simpleFtpClient->nbContinue();
         }
 
-        $this->assertSame(1, $downloadState, 'File download failed');
+        static::assertSame(1, $downloadState, 'File download failed');
 
         $originalFileContent = file_get_contents(__DIR__ . '/content/file2.txt');
         $downloadFileContent = file_get_contents(__DIR__ . '/content/file2_download.txt');
 
-        $this->assertSame($originalFileContent, $downloadFileContent, 'The content of the downloaded file does not match the original file');
+        static::assertSame($originalFileContent, $downloadFileContent, 'The content of the downloaded file does not match the original file');
 
         unlink(__DIR__ . '/content/file2_download.txt');
     }
 
     /**
      * Basic test for get server options
-     *
-     * @throws \Speedy\FTP\Exception\CommandException
      */
-    public function testGetOptionExist()
+    public function testGetOptionExist(): void
     {
         $value = $this->simpleFtpClient->getOption(FTP_TIMEOUT_SEC);
-        $this->assertSame(parent::TIMEOUT, $value, 'The return value does not match the defined value in the test');
+        static::assertSame(parent::TIMEOUT, $value, 'The return value does not match the defined value in the test');
     }
 
     /**
      * Basic test for get non-exist server option
-     *
-     * @expectedException \Speedy\FTP\Exception\CommandException
      */
-    public function testGetOptionNonExist()
+    public function testGetOptionNonExist(): void
     {
+        $this->expectException(CommandException::class);
+
         $this->simpleFtpClient->getOption(100);
     }
 
     /**
      * Basic test for set server option and validate this option
-     *
-     * @throws \Speedy\FTP\Exception\CommandException
      */
-    public function testSetOptionAndValidate()
+    public function testSetOptionAndValidate(): void
     {
         $this->simpleFtpClient->setOption(FTP_TIMEOUT_SEC, 10);
         $value = $this->simpleFtpClient->getOption(FTP_TIMEOUT_SEC);
 
-        $this->assertSame(10, $value, 'Returned value does not match the expected value');
+        static::assertSame(10, $value, 'Returned value does not match the expected value');
     }
 
     /**
      * Basic test for create and remove directory
-     *
-     * @throws \Speedy\FTP\Exception\CommandException
      */
-    public function testCreateAndRemoveDirectory()
+    public function testCreateAndRemoveDirectory(): void
     {
         $state = $this->simpleFtpClient->mkdir('/test');
-        $this->assertNotFalse($state, 'Folder was not created');
+        static::assertNotFalse($state, 'Folder was not created');
 
         $deleteState = $this->simpleFtpClient->rmdir('/test');
-        $this->assertNotFalse($deleteState, 'Folder was not deleted');
+        static::assertNotFalse($deleteState, 'Folder was not deleted');
     }
 
     /**
      * Clear FTP server after each test
-     *
-     * @throws \Speedy\FTP\Exception\CommandException
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
-        $files = $this->simpleFtpClient->nlist('/', true);
+        $files = $this->simpleFtpClient->nlist('/');
 
         foreach ($files as $file) {
             $this->simpleFtpClient->delete('/' . $file);
         }
     }
-
 }
