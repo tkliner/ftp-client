@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Speedy\FTP\Tests;
+
 use PHPUnit\Framework\TestCase;
 use Speedy\FTP\Connection\Connection;
 use Speedy\FTP\ConnectionInterface;
@@ -14,25 +16,19 @@ use Speedy\FTP\Exception\ConnectionException;
  */
 class ConnectionTest extends TestCase
 {
-    /** @var string */
-    private $host;
-
+    private string $host;
     private int $port;
-
-    /** @var string */
-    private $username;
-
-    /** @var string */
-    private $password;
+    private string $username;
+    private string $password;
 
     protected function setUp(): void
     {
         $this->__construct();
 
-        $this->host = getenv('FTP_HOST');
-        $this->port = (int)getenv('FTP_PORT');
-        $this->username = getenv('FTP_USERNAME');
-        $this->password = getenv('FTP_PASSWORD');
+        $this->host = (string) getenv('FTP_HOST');
+        $this->port = (int) getenv('FTP_PORT');
+        $this->username = (string) getenv('FTP_USERNAME');
+        $this->password = (string) getenv('FTP_PASSWORD');
     }
 
     /**
@@ -41,7 +37,11 @@ class ConnectionTest extends TestCase
     public function testCreateInstanceConnectionClass(): void
     {
         $connection = new Connection($this->host, $this->username, $this->password, $this->port);
-        static::assertInstanceOf(ConnectionInterface::class, $connection, 'Connection class does not implement connection interface');
+        static::assertInstanceOf(
+            ConnectionInterface::class,
+            $connection,
+            'Connection class does not implement connection interface',
+        );
     }
 
     /**

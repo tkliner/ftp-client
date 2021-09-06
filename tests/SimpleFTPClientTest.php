@@ -29,7 +29,7 @@ class SimpleFTPClientTest extends ConnectionTestCase
     public function testListFilesSuccess(): void
     {
         self::markTestSkipped('Free FTP server is not empty everytime.');
-        static::assertEmpty($this->simpleFtpClient->nlist('/'), 'FTP server isn\'t empty');
+        #static::assertEmpty($this->simpleFtpClient->nlist('/'), 'FTP server isn\'t empty');
     }
 
     /**
@@ -46,7 +46,11 @@ class SimpleFTPClientTest extends ConnectionTestCase
         $originalFileContent = file_get_contents(__DIR__ . '/content/file1.txt');
         $downloadFileContent = file_get_contents(__DIR__ . '/content/file1_download.txt');
 
-        static::assertSame($originalFileContent, $downloadFileContent, 'The content of the downloaded file does not match the original file');
+        static::assertSame(
+            $originalFileContent,
+            $downloadFileContent,
+            'The content of the downloaded file does not match the original file',
+        );
 
         unlink(__DIR__ . '/content/file1_download.txt');
     }
@@ -70,7 +74,11 @@ class SimpleFTPClientTest extends ConnectionTestCase
         $originalFileContent = file_get_contents(__DIR__ . '/content/file2.txt');
         $downloadFileContent = file_get_contents(__DIR__ . '/content/file2_download.txt');
 
-        static::assertSame($originalFileContent, $downloadFileContent, 'The content of the downloaded file does not match the original file');
+        static::assertSame(
+            $originalFileContent,
+            $downloadFileContent,
+            'The content of the downloaded file does not match the original file',
+        );
 
         unlink(__DIR__ . '/content/file2_download.txt');
     }

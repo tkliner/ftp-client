@@ -25,7 +25,14 @@ class ConnectionTestCase extends TestCase
     {
         parent::setUpBeforeClass();
 
-        self::$connection = new Connection(getenv('FTP_HOST'), getenv('FTP_USERNAME'), getenv('FTP_PASSWORD'), (int)getenv('FTP_PORT'), self::TIMEOUT, true);
+        self::$connection = new Connection(
+            getenv('FTP_HOST'),
+            getenv('FTP_USERNAME'),
+            getenv('FTP_PASSWORD'),
+            (int)getenv('FTP_PORT'),
+            self::TIMEOUT,
+            true,
+        );
 
         try {
             self::$connection->open();
@@ -33,7 +40,6 @@ class ConnectionTestCase extends TestCase
         } catch (Exception $exception) {
             self::$connected = false;
         }
-
     }
 
     /**
