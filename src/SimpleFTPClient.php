@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Speedy\FTP;
+namespace BPM\FTP;
 
-use Speedy\FTP\Exception\CommandException;
+use BPM\FTP\Exception\CommandException;
 
 /**
  * @author Tomáš Kliner <kliner.tomas@gmail.com>

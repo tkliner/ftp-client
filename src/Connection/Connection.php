@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Speedy\FTP\Connection;
+namespace BPM\FTP\Connection;
 
+use BPM\FTP\ConnectionInterface;
+use BPM\FTP\Exception\ConnectionAlreadyEstablishedException;
+use BPM\FTP\Exception\ConnectionBadCredentialsException;
+use BPM\FTP\Exception\ConnectionException;
 use LogicException;
-use Speedy\FTP\ConnectionInterface;
-use Speedy\FTP\Exception\ConnectionAlreadyEstablishedException;
-use Speedy\FTP\Exception\ConnectionBadCredentialsException;
-use Speedy\FTP\Exception\ConnectionException;
 use function extension_loaded;
 use function is_resource;
 

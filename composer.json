@@ -1,5 +1,5 @@
 {
-  "name": "speedy/ftp-client",
+  "name": "blackpanda-media/ftp-client",
   "type": "library",
   "description": "A simple PHP FTP client",
   "keywords": [
@@ -12,6 +12,10 @@
     {
       "name": "Tomáš Kliner",
       "email": "kliner.tomas@gmail.com"
+    },
+    {
+      "name": "David Pauli",
+      "email": "bepeppered@gmail.com"
     }
   ],
   "require": {
@@ -27,7 +31,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Speedy\\FTP\\": "src/"
+      "BPM\\FTP\\": "src/"
     },
     "exclude-from-classmap": [
       "/tests/"
@@ -35,7 +39,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Speedy\\FTP\\Tests\\": "tests/"
+      "BPM\\FTP\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "dev"

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Speedy\FTP\Tests;
+namespace BPM\FTP\Tests;
 
+use BPM\FTP\Connection\Connection;
 use Exception;
 use PHPUnit\Framework\TestCase;
-use Speedy\FTP\Connection\Connection;
 
 /**
  * @author Tomáš Kliner <kliner.tomas@gmail.com>
