@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Speedy\FTP\Exception;
+namespace BPM\FTP\Exception;
 
 use Exception;
 

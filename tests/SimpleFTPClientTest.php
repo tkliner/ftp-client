@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Speedy\FTP\Exception\CommandException;
-use Speedy\FTP\SimpleFTPClient;
-use Speedy\FTP\Tests\ConnectionTestCase;
+use BPM\FTP\Exception\CommandException;
+use BPM\FTP\SimpleFTPClient;
+use BPM\FTP\Tests\ConnectionTestCase;
 
 /**
  * @author Tomáš Kliner <kliner.tomas@gmail.com>

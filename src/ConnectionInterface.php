@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Speedy\FTP;
+namespace BPM\FTP;
 
 interface ConnectionInterface
 {

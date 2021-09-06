@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Speedy\FTP\Tests;
+namespace BPM\FTP\Tests;
 
+use BPM\FTP\Connection\Connection;
+use BPM\FTP\ConnectionInterface;
+use BPM\FTP\Exception\ConnectionAlreadyEstablishedException;
+use BPM\FTP\Exception\ConnectionBadCredentialsException;
+use BPM\FTP\Exception\ConnectionException;
 use PHPUnit\Framework\TestCase;
-use Speedy\FTP\Connection\Connection;
-use Speedy\FTP\ConnectionInterface;
-use Speedy\FTP\Exception\ConnectionAlreadyEstablishedException;
-use Speedy\FTP\Exception\ConnectionBadCredentialsException;
-use Speedy\FTP\Exception\ConnectionException;
 
 /**
  * @author Tomáš Kliner <kliner.tomas@gmail.com>

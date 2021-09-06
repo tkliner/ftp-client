@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Speedy\FTP;
+namespace BPM\FTP;
 
+use BPM\FTP\Exception\CommandException;
 use Exception;
-use Speedy\FTP\Exception\CommandException;
 use function call_user_func_array;
 use function func_get_args;
 
