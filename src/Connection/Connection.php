@@ -1,79 +1,35 @@
-<?php declare(strict_types=1);
+<?php
 
-/*
- * This file is part of the Speedy package.
- *
- * (c) Tomáš Kliner <kliner.tomas@gmail.com>
- *
- */
+declare(strict_types=1);
 
-namespace Speedy\FTP\Connection;
+namespace BPM\FTP\Connection;
 
-use Speedy\FTP\ConnectionInterface;
-use Speedy\FTP\Exception\ConnectionAlreadyEstablishedException;
-use Speedy\FTP\Exception\ConnectionBadCredentialsException;
-use Speedy\FTP\Exception\ConnectionException;
+use BPM\FTP\ConnectionInterface;
+use BPM\FTP\Exception\ConnectionAlreadyEstablishedException;
+use BPM\FTP\Exception\ConnectionBadCredentialsException;
+use BPM\FTP\Exception\ConnectionException;
+use LogicException;
+use function extension_loaded;
+use function is_resource;
 
 /**
- * Class FTP Connection
- *
- * @package     Speedy\FTP\Connection
- * @author      Tomáš Kliner <kliner.tomas@gmail.com>
- * @version     1.0.0
+ * @author Tomáš Kliner <kliner.tomas@gmail.com>
  */
 class Connection implements ConnectionInterface
 {
-    /**
-     * @var string
-     */
-    private $host;
+    private string $host;
+    private string $username;
+    private string $password;
+    private int $port;
+    private int $timeout;
+    private bool $passive;
+    private ?bool $connected = null;
 
-    /**
-     * @var string
-     */
-    private $username;
-
-    /**
-     * @var string
-     */
-    private $password;
-
-    /**
-     * @var int
-     */
-    private $port;
-
-    /**
-     * @var int
-     */
-    private $timeout;
-
-    /**
-     * @var bool
-     */
-    private $passive;
-
-    /**
-     * @var bool
-     */
-    private $connected;
-
-    /**
-     * @var resource
-     */
+    /** @var bool|resource */
     private $resource;
 
     /**
-     * Connection constructor.
-     *
-     * @param string $host
-     * @param string $username
-     * @param string $password
-     * @param int    $port
-     * @param int    $timeout
-     * @param bool   $passive
-     *
-     * @throws \Exception
+     * @throws LogicException
      */
     public function __construct(
         string $host,
@@ -82,10 +38,9 @@ class Connection implements ConnectionInterface
         int $port = 21,
         int $timeout = 90,
         bool $passive = false
-    )
-    {
-        if (!\extension_loaded('ftp')) {
-            throw new \LogicException('PHP extension FTP is not loaded.');
+    ) {
+        if (!extension_loaded('ftp')) {
+            throw new LogicException('PHP extension FTP is not loaded.');
         }
 
         $this->host = $host;
@@ -99,7 +54,6 @@ class Connection implements ConnectionInterface
     /**
      * Open connection to server and login user
      *
-     * @return bool
      * @throws ConnectionAlreadyEstablishedException
      * @throws ConnectionException
      * @throws ConnectionBadCredentialsException
@@ -113,10 +67,10 @@ class Connection implements ConnectionInterface
             );
         }
 
-        // try establish a connection with the ftp server
+        // try to establish a connection with the ftp server
         $this->resource = $this->connect();
 
-        if (false === $this->resource || !\is_resource($this->resource)) {
+        if (false === $this->resource || !is_resource($this->resource)) {
             throw new ConnectionException(
                 sprintf('Can\'t connect to the server %s on port %s', $this->getHost(), $this->getPort())
             );
@@ -133,10 +87,8 @@ class Connection implements ConnectionInterface
             );
         }
 
-        if (true === $this->passive) {
-            if (!@ftp_pasv($this->getResource(), $this->passive)) {
-                throw new ConnectionException('Passive mode can not be turned on');
-            }
+        if (true === $this->passive && !@ftp_pasv($this->getResource(), $this->passive)) {
+            throw new ConnectionException('Passive mode can not be turned on');
         }
 
         $this->setConnected(true);
@@ -151,17 +103,15 @@ class Connection implements ConnectionInterface
      */
     protected function connect()
     {
-        return @\ftp_connect($this->getHost(), $this->getPort(), $this->getTimeout());
+        return @ftp_connect($this->getHost(), $this->getPort(), $this->getTimeout());
     }
 
     /**
      * Return the status of the connection has been closed or not
-     *
-     * @return bool
      */
     public function close(): bool
     {
-        $state = \ftp_close($this->getResource());
+        $state = ftp_close($this->getResource());
         $this->setConnected(!$state);
 
         return $state;
@@ -169,8 +119,6 @@ class Connection implements ConnectionInterface
 
     /**
      * Return connection state
-     *
-     * @return bool
      */
     public function isConnected(): ?bool
     {
@@ -187,80 +135,45 @@ class Connection implements ConnectionInterface
         }
     }
 
-    /************ GETTERS AND SETTERS ************/
-
     /**
      * Return FTP protocol resource
      *
-     * @return resource
+     * @return bool|resource
      */
     public function getResource()
     {
         return $this->resource;
     }
 
-    /**
-     * Return host
-     *
-     * @return string
-     */
     public function getHost(): string
     {
         return $this->host;
     }
 
-    /**
-     * Return port
-     *
-     * @return int
-     */
     public function getPort(): int
     {
         return $this->port;
     }
 
-    /**
-     * Return timeout
-     *
-     * @return int
-     */
     public function getTimeout(): int
     {
         return $this->timeout;
     }
 
-    /**
-     * Return username
-     *
-     * @return string
-     */
     public function getUserName(): string
     {
         return $this->username;
     }
 
-    /**
-     * Return password
-     *
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * This method implements fluent interface
-     *
-     * @param $param null|bool
-     *
-     * @return ConnectionInterface
-     */
     public function setConnected(?bool $param): ConnectionInterface
     {
         $this->connected = $param;
 
         return $this;
     }
-
 }

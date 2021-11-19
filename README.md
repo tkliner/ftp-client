@@ -21,8 +21,8 @@ Basic initialization and class usage for the most used ftp server operations
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Speedy\FTP\Connection\Connection;
-use Speedy\FTP\SimpleFTPClient;
+use BPM\FTP\Connection\Connection;
+use BPM\FTP\SimpleFTPClient;
 
 $connection = new Connection('host', 'login', 'password');
 $client = new SimpleFTPClient($connection);

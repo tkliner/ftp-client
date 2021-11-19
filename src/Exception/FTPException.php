@@ -1,22 +1,15 @@
-<?php declare(strict_types=1);
+<?php
 
-/*
- * This file is part of the Speedy package.
- *
- * (c) Tomáš Kliner <kliner.tomas@gmail.com>
- *
- */
+declare(strict_types=1);
 
-namespace Speedy\FTP\Exception;
+namespace BPM\FTP\Exception;
+
+use Exception;
 
 /**
- * Base class FTPException
- *
- * @package     Speedy\FTP\Exception
- * @author      Tomáš Kliner <kliner.tomas@gmail.com>
- * @version     1.0.0
+ * @author Tomáš Kliner <kliner.tomas@gmail.com>
  */
-class FTPException extends \Exception
+class FTPException extends Exception
 {
 
 }
