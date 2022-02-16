@@ -15,11 +15,11 @@
     },
     {
       "name": "David Pauli",
-      "email": "bepeppered@gmail.com"
+      "email": "info@blackpanda.media"
     }
   ],
   "require": {
-    "php": "7.4.* || 8.0.*",
+    "php": "7.4.* || 8.0.* || 8.1.*",
     "ext-ftp": "*"
   },
   "require-dev": {
