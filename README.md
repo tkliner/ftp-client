@@ -4,13 +4,13 @@ Speedy FTP client is a package component for simple communication with the ftp s
 
 ## Requirements
 
-- \>= php 7.1
+- \>= php 7.4
 
 
 ## Installation
 
 ```sh
-$ composer require speedy/ftp-client
+$ composer require blackpanda-media/ftp-client
 ```
 
 ## Usage
