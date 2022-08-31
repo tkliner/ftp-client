@@ -9,7 +9,7 @@ interface ConnectionInterface
     /**
      * Return PHP FTP resource connection
      *
-     * @return resource
+     * @return resource|\FTP\Connection|false
      */
     public function getResource();
 

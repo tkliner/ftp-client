@@ -4,8 +4,7 @@ Speedy FTP client is a package component for simple communication with the ftp s
 
 ## Requirements
 
-- \>= php 7.4
-
+- \>= php 8.0
 
 ## Installation
 

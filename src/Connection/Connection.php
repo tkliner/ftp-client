@@ -9,8 +9,8 @@ use BPM\FTP\Exception\ConnectionAlreadyEstablishedException;
 use BPM\FTP\Exception\ConnectionBadCredentialsException;
 use BPM\FTP\Exception\ConnectionException;
 use LogicException;
+
 use function extension_loaded;
-use function is_resource;
 
 /**
  * @author Tomáš Kliner <kliner.tomas@gmail.com>
@@ -25,7 +25,7 @@ class Connection implements ConnectionInterface
     private bool $passive;
     private ?bool $connected = null;
 
-    /** @var bool|resource */
+    /** @var false|resource|\FTP\Connection */
     private $resource;
 
     /**
@@ -70,7 +70,7 @@ class Connection implements ConnectionInterface
         // try to establish a connection with the ftp server
         $this->resource = $this->connect();
 
-        if (false === $this->resource || !is_resource($this->resource)) {
+        if (false === $this->resource) {
             throw new ConnectionException(
                 sprintf('Can\'t connect to the server %s on port %s', $this->getHost(), $this->getPort())
             );
@@ -99,7 +99,7 @@ class Connection implements ConnectionInterface
     /**
      * Connects to the server
      *
-     * @return resource
+     * @return resource|false|\FTP\Connection
      */
     protected function connect()
     {
@@ -138,7 +138,7 @@ class Connection implements ConnectionInterface
     /**
      * Return FTP protocol resource
      *
-     * @return bool|resource
+     * @return false|resource|\FTP\Connection
      */
     public function getResource()
     {
